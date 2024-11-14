@@ -1,5 +1,3 @@
-// LAB1INEP.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
-//
 #include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/statement.h>
@@ -21,18 +19,42 @@ void procesarRegistreUsuari() {
     cin >> correu;
 
     if (!sobrenom.empty() && !nom_complet.empty() && !correu.empty()) {
-        "INSERT INTO usuari (sobrenom, nom, correu_electronic) VALUES( sobrenom, 'nom_complet','correu')";
-        stmt->execute(sql);
+        sql::mysql::MySQL_Driver* driver = NULL;
+        sql::Connection* con = NULL;
+        sql::Statement* stmt = NULL;
+
+        try {
+            driver = sql::mysql::get_mysql_driver_instance();
+            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
+            con->setSchema("inep27");
+            stmt = con->createStatement();
+
+            // Sentència SQL per inserir l'usuari a la taula "Usuari"
+            string sql = "INSERT INTO Usuari (sobrenom, nom, correu) VALUES ('" + sobrenom + "', '" + nom_complet + "', '" + correu + "')";
+
+            // Executa la inserció
+            stmt->execute(sql);
+            cout << "Usuari registrat correctament!" << endl;
+
+            con->close();
+        }
+        catch (sql::SQLException& e) {
+            cerr << "SQL Error: " << e.what() << endl;
+            if (con != NULL) con->close();
+        }
     }
     else {
-        cout << "Error al registrar usuari" << endl;
+        cout << "Error al registrar usuari: Tots els camps són obligatoris." << endl;
     }
 }
 
 void procesarConsultaUsuari() {
+    string sobrenom;
     sql::mysql::MySQL_Driver* driver = NULL;
     sql::Connection* con = NULL;
     sql::Statement* stmt = NULL;
+    cout << "Introdueix sobrenom:" << endl;
+    cin >> sobrenom;
     try {
         driver = sql::mysql::get_mysql_driver_instance();
         con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
@@ -41,7 +63,7 @@ void procesarConsultaUsuari() {
         // Sentència SQL per obtenir totes les files de la taula usuari.
         // S’ha de posar el nom de la taula tal i com el teniu a la base
         // de dades respectant minúscules i majúscules
-        string sql = "SELECT * FROM Usuari ";
+        string sql = "SELECT * FROM Usuari WHERE sobrenom = '" + sobrenom + "'";
         sql::ResultSet* res = stmt->executeQuery(sql);
         // Bucle per recórrer les dades retornades mostrant les dades de cada fila
         while (res->next()) {
@@ -58,7 +80,7 @@ void procesarConsultaUsuari() {
         if (con != NULL) con->close();
     }
 
-    
+
 }
 
 void procesarModificaUsuari() {
