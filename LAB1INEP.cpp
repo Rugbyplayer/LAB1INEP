@@ -222,3 +222,5 @@ int main()
     return 0;
 
 }
+
+// Editat per Guillem-Sancho
