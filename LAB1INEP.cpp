@@ -1,19 +1,28 @@
 // LAB1INEP.cpp : Este archivo contiene la función "main". La ejecución del programa comienza y termina ahí.
 //
+#include <cppconn/driver.h>
+#include <cppconn/exception.h>
+#include <cppconn/statement.h>
+#include <iostream>
+#include <mysql_connection.h>
+#include <mysql_driver.h>
 
 #include <iostream>
 #include <string>
 using namespace std;
 void procesarRegistreUsuari() {
-    string sobrenom, nom_complet;
+    string sobrenom, nom_complet, correu;
     cout << "Introdueix el sobrenom: ";
     cin >> sobrenom;
     cout << "Introdueix el nom complet: ";
     cin.ignore(); // Per evitar problemes amb el buffer d'entrada
     getline(cin, nom_complet);
+    cout << "Introdueix el correu electronic: ";
+    cin >> correu;
 
-    if (!sobrenom.empty() && !nom_complet.empty()) {
-        cout << "El registre de l'usuari " << nom_complet << " (" << sobrenom << ") s’ha processat correctament" << endl;
+    if (!sobrenom.empty() && !nom_complet.empty() && !correu.empty()) {
+        "INSERT INTO usuari (sobrenom, nom, correu_electronic) VALUES( sobrenom, 'nom_complet','correu')";
+        stmt->execute(sql);
     }
     else {
         cout << "Error al registrar usuari" << endl;
@@ -21,7 +30,35 @@ void procesarRegistreUsuari() {
 }
 
 void procesarConsultaUsuari() {
-    cout << "Consulta usuari operacio processada" << endl;
+    sql::mysql::MySQL_Driver* driver = NULL;
+    sql::Connection* con = NULL;
+    sql::Statement* stmt = NULL;
+    try {
+        driver = sql::mysql::get_mysql_driver_instance();
+        con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
+        con->setSchema("inep27");
+        stmt = con->createStatement();
+        // Sentència SQL per obtenir totes les files de la taula usuari.
+        // S’ha de posar el nom de la taula tal i com el teniu a la base
+        // de dades respectant minúscules i majúscules
+        string sql = "SELECT * FROM Usuari ";
+        sql::ResultSet* res = stmt->executeQuery(sql);
+        // Bucle per recórrer les dades retornades mostrant les dades de cada fila
+        while (res->next()) {
+            // a la funció getString es fa servir el nom de la columna de la taula
+            cout << "Sobrenom: " << res->getString("sobrenom") << endl;
+            cout << "Nom: " << res->getString("nom") << endl;
+            cout << "Correu: " << res->getString("correu") << endl;
+        }
+        con->close();
+    }
+    catch (sql::SQLException& e) {
+        std::cerr << "SQL Error: " << e.what() << std::endl;
+        // si hi ha un error es tanca la connexió (si esta oberta)
+        if (con != NULL) con->close();
+    }
+
+    
 }
 
 void procesarModificaUsuari() {

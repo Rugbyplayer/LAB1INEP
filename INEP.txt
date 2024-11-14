@@ -1,0 +1,3 @@
+Usuari de GitHub: Rugbyplayer
+URL del repositori del codi desenvolupat:https://github.com/Rugbyplayer/LAB1INEP.git
+URL del repositori de desenvolupament col·laboratiu: https:	https://github.com/Guillem-Sancho/INEP.git
