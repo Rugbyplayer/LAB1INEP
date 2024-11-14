@@ -84,12 +84,89 @@ void procesarConsultaUsuari() {
 }
 
 void procesarModificaUsuari() {
-    cout << "Modificacio usuari operacio processada" << endl;
+    string sobrenom, nouNom, nouCorreu;
+
+    // Solicitamos el sobrenom del usuario a modificar
+    cout << "Introdueix el sobrenom de l'usuari a modificar: ";
+    cin >> sobrenom;
+
+    // Pedimos los nuevos valores para el nombre y el correo
+    cout << "Introdueix el nou nom complet: ";
+    cin.ignore();  // Limpiamos el buffer para que no interfiera con getline
+    getline(cin, nouNom);
+    cout << "Introdueix el nou correu electronic: ";
+    cin >> nouCorreu;
+
+    // Verificamos que los campos no estén vacíos
+    if (!sobrenom.empty() && !nouNom.empty() && !nouCorreu.empty()) {
+        sql::mysql::MySQL_Driver* driver = NULL;
+        sql::Connection* con = NULL;
+        sql::Statement* stmt = NULL;
+
+        try {
+            driver = sql::mysql::get_mysql_driver_instance();
+            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
+            con->setSchema("inep27");
+            stmt = con->createStatement();
+
+            // Sentència SQL per actualitzar el nom i el correu de l'usuari
+            string sql = "UPDATE Usuari SET nom = '" + nouNom + "', correu = '" + nouCorreu + "' WHERE sobrenom = '" + sobrenom + "'";
+
+            // Executa la actualització
+            stmt->execute(sql);
+            cout << "Usuari modificat correctament!" << endl;
+
+            con->close();
+        }
+        catch (sql::SQLException& e) {
+            cerr << "SQL Error: " << e.what() << endl;
+            if (con != NULL) con->close();
+        }
+    }
+    else {
+        cout << "Error: Tots els camps són obligatoris." << endl;
+    }
 }
 
+
 void procesarEsborraUsuari() {
-    cout << "Esborrat usuari operacio processada" << endl;
+    string sobrenom;
+
+    // Solicitamos el sobrenom del usuario a borrar
+    cout << "Introdueix el sobrenom de l'usuari a esborrar: ";
+    cin >> sobrenom;
+
+    // Verificamos que el sobrenom no esté vacío
+    if (!sobrenom.empty()) {
+        sql::mysql::MySQL_Driver* driver = NULL;
+        sql::Connection* con = NULL;
+        sql::Statement* stmt = NULL;
+
+        try {
+            driver = sql::mysql::get_mysql_driver_instance();
+            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
+            con->setSchema("inep27");
+            stmt = con->createStatement();
+
+            // Sentència SQL per esborrar l'usuari
+            string sql = "DELETE FROM Usuari WHERE sobrenom = '" + sobrenom + "'";
+
+            // Executa la sentència de borrat
+            stmt->execute(sql);
+            cout << "Usuari esborrat correctament!" << endl;
+
+            con->close();
+        }
+        catch (sql::SQLException& e) {
+            cerr << "SQL Error: " << e.what() << endl;
+            if (con != NULL) con->close();
+        }
+    }
+    else {
+        cout << "Error: El sobrenom no pot estar buit." << endl;
+    }
 }
+
 
 // Funcions de processament de continguts
 void procesarGestioPelicules() {
