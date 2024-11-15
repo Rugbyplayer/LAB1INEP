@@ -11,12 +11,14 @@ using namespace std;
 void procesarRegistreUsuari() {
     string sobrenom, nom_complet, correu;
     cout << "Introdueix el sobrenom: ";
-    cin >> sobrenom;
+    cin.ignore();
+    getline(cin, sobrenom);
     cout << "Introdueix el nom complet: ";
     cin.ignore(); // Per evitar problemes amb el buffer d'entrada
     getline(cin, nom_complet);
     cout << "Introdueix el correu electronic: ";
-    cin >> correu;
+    cin.ignore();
+    getline(cin, correu);
 
     if (!sobrenom.empty() && !nom_complet.empty() && !correu.empty()) {
         sql::mysql::MySQL_Driver* driver = NULL;
