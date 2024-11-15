@@ -134,7 +134,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConnexioBD.cpp" />
     <ClCompile Include="LAB1INEP.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ConnexioBD.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

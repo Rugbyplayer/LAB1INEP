@@ -4,45 +4,28 @@
 #include <iostream>
 #include <mysql_connection.h>
 #include <mysql_driver.h>
-
+#include "ConnexioBD.h"
 #include <iostream>
 #include <string>
 using namespace std;
-void procesarRegistreUsuari() {
+void procesarRegistreUsuari(ConnexioBD& connexio) {
     string sobrenom, nom_complet, correu;
     cout << "Introdueix el sobrenom: ";
     cin.ignore();
     getline(cin, sobrenom);
     cout << "Introdueix el nom complet: ";
-    cin.ignore(); // Per evitar problemes amb el buffer d'entrada
     getline(cin, nom_complet);
     cout << "Introdueix el correu electronic: ";
-    cin.ignore();
     getline(cin, correu);
 
     if (!sobrenom.empty() && !nom_complet.empty() && !correu.empty()) {
-        sql::mysql::MySQL_Driver* driver = NULL;
-        sql::Connection* con = NULL;
-        sql::Statement* stmt = NULL;
-
         try {
-            driver = sql::mysql::get_mysql_driver_instance();
-            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
-            con->setSchema("inep27");
-            stmt = con->createStatement();
-
-            // Sentència SQL per inserir l'usuari a la taula "Usuari"
             string sql = "INSERT INTO Usuari (sobrenom, nom, correu) VALUES ('" + sobrenom + "', '" + nom_complet + "', '" + correu + "')";
-
-            // Executa la inserció
-            stmt->execute(sql);
+            connexio.executeCommand(sql);
             cout << "Usuari registrat correctament!" << endl;
-
-            con->close();
         }
         catch (sql::SQLException& e) {
             cerr << "SQL Error: " << e.what() << endl;
-            if (con != NULL) con->close();
         }
     }
     else {
@@ -50,79 +33,56 @@ void procesarRegistreUsuari() {
     }
 }
 
-void procesarConsultaUsuari() {
+// Consulta un usuario por sobrenombre
+void procesarConsultaUsuari(ConnexioBD& connexio) {
     string sobrenom;
-    sql::mysql::MySQL_Driver* driver = NULL;
-    sql::Connection* con = NULL;
-    sql::Statement* stmt = NULL;
-    cout << "Introdueix sobrenom:" << endl;
-    cin >> sobrenom;
-    try {
-        driver = sql::mysql::get_mysql_driver_instance();
-        con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
-        con->setSchema("inep27");
-        stmt = con->createStatement();
-        // Sentència SQL per obtenir totes les files de la taula usuari.
-        // S’ha de posar el nom de la taula tal i com el teniu a la base
-        // de dades respectant minúscules i majúscules
-        string sql = "SELECT * FROM Usuari WHERE sobrenom = '" + sobrenom + "'";
-        sql::ResultSet* res = stmt->executeQuery(sql);
-        // Bucle per recórrer les dades retornades mostrant les dades de cada fila
-        while (res->next()) {
-            // a la funció getString es fa servir el nom de la columna de la taula
-            cout << "Sobrenom: " << res->getString("sobrenom") << endl;
-            cout << "Nom: " << res->getString("nom") << endl;
-            cout << "Correu: " << res->getString("correu") << endl;
-        }
-        con->close();
-    }
-    catch (sql::SQLException& e) {
-        std::cerr << "SQL Error: " << e.what() << std::endl;
-        // si hi ha un error es tanca la connexió (si esta oberta)
-        if (con != NULL) con->close();
-    }
-
-
-}
-
-void procesarModificaUsuari() {
-    string sobrenom, nouNom, nouCorreu;
-
-    // Solicitamos el sobrenom del usuario a modificar
-    cout << "Introdueix el sobrenom de l'usuari a modificar: ";
+    cout << "Introdueix sobrenom: ";
     cin >> sobrenom;
 
-    // Pedimos los nuevos valores para el nombre y el correo
-    cout << "Introdueix el nou nom complet: ";
-    cin.ignore();  // Limpiamos el buffer para que no interfiera con getline
-    getline(cin, nouNom);
-    cout << "Introdueix el nou correu electronic: ";
-    cin >> nouCorreu;
-
-    // Verificamos que los campos no estén vacíos
-    if (!sobrenom.empty() && !nouNom.empty() && !nouCorreu.empty()) {
-        sql::mysql::MySQL_Driver* driver = NULL;
-        sql::Connection* con = NULL;
-        sql::Statement* stmt = NULL;
-
+    if (!sobrenom.empty()) {
         try {
-            driver = sql::mysql::get_mysql_driver_instance();
-            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
-            con->setSchema("inep27");
-            stmt = con->createStatement();
+            string sql = "SELECT * FROM Usuari WHERE sobrenom = '" + sobrenom + "'";
+            sql::ResultSet* res = connexio.executeQuery(sql);
 
-            // Sentència SQL per actualitzar el nom i el correu de l'usuari
-            string sql = "UPDATE Usuari SET nom = '" + nouNom + "', correu = '" + nouCorreu + "' WHERE sobrenom = '" + sobrenom + "'";
-
-            // Executa la actualització
-            stmt->execute(sql);
-            cout << "Usuari modificat correctament!" << endl;
-
-            con->close();
+            if (res->next()) {
+                cout << "Sobrenom: " << res->getString("sobrenom") << endl;
+                cout << "Nom: " << res->getString("nom") << endl;
+                cout << "Correu: " << res->getString("correu") << endl;
+            }
+            else {
+                cout << "Usuari no trobat." << endl;
+            }
+            delete res;
         }
         catch (sql::SQLException& e) {
             cerr << "SQL Error: " << e.what() << endl;
-            if (con != NULL) con->close();
+        }
+    }
+    else {
+        cout << "Error: Sobrenom no pot estar buit." << endl;
+    }
+}
+
+// Modifica un usuario existente
+void procesarModificaUsuari(ConnexioBD& connexio) {
+    string sobrenom, nouNom, nouCorreu;
+
+    cout << "Introdueix el sobrenom de l'usuari a modificar: ";
+    cin >> sobrenom;
+    cin.ignore();
+    cout << "Introdueix el nou nom complet: ";
+    getline(cin, nouNom);
+    cout << "Introdueix el nou correu electronic: ";
+    getline(cin, nouCorreu);
+
+    if (!sobrenom.empty() && !nouNom.empty() && !nouCorreu.empty()) {
+        try {
+            string sql = "UPDATE Usuari SET nom = '" + nouNom + "', correu = '" + nouCorreu + "' WHERE sobrenom = '" + sobrenom + "'";
+            connexio.executeCommand(sql);
+            cout << "Usuari modificat correctament!" << endl;
+        }
+        catch (sql::SQLException& e) {
+            cerr << "SQL Error: " << e.what() << endl;
         }
     }
     else {
@@ -130,45 +90,27 @@ void procesarModificaUsuari() {
     }
 }
 
-
-void procesarEsborraUsuari() {
+// Elimina un usuario
+void procesarEsborraUsuari(ConnexioBD& connexio) {
     string sobrenom;
 
-    // Solicitamos el sobrenom del usuario a borrar
     cout << "Introdueix el sobrenom de l'usuari a esborrar: ";
     cin >> sobrenom;
 
-    // Verificamos que el sobrenom no esté vacío
     if (!sobrenom.empty()) {
-        sql::mysql::MySQL_Driver* driver = NULL;
-        sql::Connection* con = NULL;
-        sql::Statement* stmt = NULL;
-
         try {
-            driver = sql::mysql::get_mysql_driver_instance();
-            con = driver->connect("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah");
-            con->setSchema("inep27");
-            stmt = con->createStatement();
-
-            // Sentència SQL per esborrar l'usuari
             string sql = "DELETE FROM Usuari WHERE sobrenom = '" + sobrenom + "'";
-
-            // Executa la sentència de borrat
-            stmt->execute(sql);
+            connexio.executeCommand(sql);
             cout << "Usuari esborrat correctament!" << endl;
-
-            con->close();
         }
         catch (sql::SQLException& e) {
             cerr << "SQL Error: " << e.what() << endl;
-            if (con != NULL) con->close();
         }
     }
     else {
         cout << "Error: El sobrenom no pot estar buit." << endl;
     }
 }
-
 
 // Funcions de processament de continguts
 void procesarGestioPelicules() {
@@ -248,7 +190,7 @@ void GestioContinguts() {
 }
 
 
-void GestioUsuari() {
+void GestioUsuari(ConnexioBD& connexio) {
     int num = 0;
     while (num != 5) {
         cout << "\nGestio Usuaris" << endl;
@@ -261,28 +203,30 @@ void GestioUsuari() {
         cin >> num;
         switch (num) {
         case 1:
-            procesarRegistreUsuari();
+            procesarRegistreUsuari(connexio);
             break;
         case 2:
-            procesarConsultaUsuari();
+            procesarConsultaUsuari(connexio);
             break;
         case 3:
-            procesarModificaUsuari();
+            procesarModificaUsuari(connexio);
             break;
         case 4:
-            procesarEsborraUsuari();
+            procesarEsborraUsuari(connexio);
             break;
         case 5:
-            // Tornar al menú principal
             break;
         default:
             cout << "Opcio no valida, torna-ho a intentar." << endl;
+           
         }
     }
 }
 
 
 void menuPrincipal() {
+    ConnexioBD connexio("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah", "inep27");
+
     int opcio = 0;
     while (opcio != 4) {
         cout << "\nMenu Principal" << endl;
@@ -295,13 +239,13 @@ void menuPrincipal() {
 
         switch (opcio) {
         case 1:
-            GestioUsuari();
+            GestioUsuari(connexio);
             break;
         case 2:
-            GestioContinguts();
+            cout << "Gestio continguts encara no implementada." << endl;
             break;
         case 3:
-            Consulta();
+            cout << "Consultes encara no implementades." << endl;
             break;
         case 4:
             cout << "Sortint de l'aplicacio. Fins aviat!" << endl;
@@ -309,19 +253,13 @@ void menuPrincipal() {
         default:
             cout << "No a elegit una opcio viable." << endl;
 
-
-
-
         }
     }
-
-
 }
-int main()
-{
+
+int main() {
     menuPrincipal();
     return 0;
-
 }
 
 // Editat per Guillem-Sancho
