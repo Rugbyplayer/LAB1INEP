@@ -1,11 +1,39 @@
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/statement.h>
-#include <iostream>
-#include <mysql_connection.h>
-#include <mysql_driver.h>
-#include "ConnexioBD.h"
-#include <iostream>
-#include <string>
+#ifndef CAPADEDOMINI_HPP
+#define CAPADEDOMINI_HPP
 
-void registrarUsuari(string sobrenom, string nom, string correu);
+#include <string>
+#include "DTOUsuari.hpp"
+
+class CapaDeDomini {
+private:
+    std::string usuarioLogueado;
+    CapaDeDomini() {}
+
+public:
+    static CapaDeDomini& getInstance() {
+        static CapaDeDomini instance;
+        return instance;
+    }
+
+    // Gestión de sesiones
+    void iniciarSesion(const std::string& sobrenom, const std::string& contrasenya);
+    void cerrarSesion();
+
+    // Gestión de usuarios
+    void registrarUsuario(const std::string& nom, const std::string& sobrenom,
+        const std::string& contrasenya, const std::string& correo);
+    DTOUsuari consultarPerfil(const std::string& sobrenom);
+    void modificarPerfil(const std::string& sobrenom, const std::string& nuevoNom,
+        const std::string& nuevoCorreo);
+    void eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya);
+
+    // Consultas
+    void consultarProximasEstrenas(const std::string& sobrenom);
+    void consultarUltimasNovedades(const std::string& sobrenom);
+    void consultarMasVistas(const std::string& sobrenom);
+
+    // Visualizaciones
+    void consultarVisualizaciones(const std::string& sobrenom);
+};
+
+#endif

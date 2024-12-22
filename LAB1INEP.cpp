@@ -1,163 +1,79 @@
-#include <cppconn/driver.h>
-#include <cppconn/exception.h>
-#include <cppconn/statement.h>
-#include <iostream>
-#include <mysql_connection.h>
-#include <mysql_driver.h>
-#include "ConnexioBD.h"
-#include <iostream>
-#include <string>
 #include "CapaDePresentacio.hpp"
-using namespace std;
-
-// Funcions de processament de continguts
-void procesarGestioPelicules() {
-    cout << "Gestio pel·licules operacio processada" << endl;
-}
-
-void procesarGestioSeries() {
-    cout << "Gestio series operacio processada" << endl;
-}
-
-// Funcions de processament de consultes
-void procesarConsultaQualificacioEdat() {
-    cout << "Consulta per qualificacio d’edat operacio processada" << endl;
-}
-
-void procesarUltimesNovetats() {
-    cout << "Ultimes novetats operacio processada" << endl;
-}
-
-void procesarProximesEstrenes() {
-    cout << "Proximes estrenes operacio processada" << endl;
-}
-void Consulta() {
-    int opcio = 0;
-    while (opcio != 4) {
-        cout << "\nConsultes" << endl;
-        cout << "1. Consulta per qualificacio d’edat" << endl;
-        cout << "2. Ultimes novetats" << endl;
-        cout << "3. Proximes estrenes" << endl;
-        cout << "4. Tornar" << endl;
-        cout << "Tria una opció: ";
-        cin >> opcio;
-
-        switch (opcio) {
-        case 1:
-            procesarConsultaQualificacioEdat();
-            break;
-        case 2:
-            procesarUltimesNovetats();
-            break;
-        case 3:
-            procesarProximesEstrenes();
-            break;
-        case 4:
-            // Tornar al menú principal
-            break;
-        default:
-            cout << "Opcio no valida, torna-ho a intentar." << endl;
-        }
-    }
-}
-
-void GestioContinguts() {
-    int opcio = 0;
-    while (opcio != 3) {
-        cout << "\nGestio Continguts" << endl;
-        cout << "1. Gestio pel·lícules" << endl;
-        cout << "2. Gestio series" << endl;
-        cout << "3. Tornar" << endl;
-        cout << "Tria una opció: ";
-        cin >> opcio;
-
-        switch (opcio) {
-        case 1:
-            procesarGestioPelicules();
-            break;
-        case 2:
-            procesarGestioSeries();
-            break;
-        case 3:
-            // Tornar al menú principal
-            break;
-        default:
-            cout << "Opcio no valida, torna-ho a intentar." << endl;
-        }
-    }
-}
-
-
-void GestioUsuari(ConnexioBD& connexio) {
-    int num = 0;
-    while (num != 5) {
-        cout << "\nGestio Usuaris" << endl;
-        cout << "1. Registre usuari" << endl;
-        cout << "2. Consulta usuari" << endl;
-        cout << "3. Modifica usuari" << endl;
-        cout << "4. Esborra usuari" << endl;
-        cout << "5. Tornar" << endl;
-        cout << "Escull una numero: ";
-        cin >> num;
-        CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
-        switch (num) {
-        case 1:
-            presentacio.procesarRegistreUsuari(connexio);
-            break;
-        case 2:
-            presentacio.procesarConsultaUsuari(connexio);
-            break;
-        case 3:
-            presentacio.procesarModificaUsuari(connexio);
-            break;
-        case 4:
-            presentacio.procesarEsborraUsuari(connexio);
-            break;
-        case 5:
-            break;
-        default:
-            cout << "Opcio no valida, torna-ho a intentar." << endl;
-           
-        }
-    }
-}
-
-
-void menuPrincipal() {
-    ConnexioBD connexio("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah", "inep27");
-
-    int opcio = 0;
-    while (opcio != 4) {
-        cout << "\nMenu Principal" << endl;
-        cout << "1. Gestio usuaris" << endl;
-        cout << "2. Gestio continguts" << endl;
-        cout << "3. Consultes" << endl;
-        cout << "4. Sortir" << endl;
-        cout << "Escull una opcio: ";
-        cin >> opcio;
-
-        switch (opcio) {
-        case 1:
-            GestioUsuari(connexio);
-            break;
-        case 2:
-            cout << "Gestio continguts encara no implementada." << endl;
-            break;
-        case 3:
-            cout << "Consultes encara no implementades." << endl;
-            break;
-        case 4:
-            cout << "Sortint de l'aplicacio. Fins aviat!" << endl;
-            break;
-        default:
-            cout << "No a elegit una opcio viable." << endl;
-
-        }
-    }
-}
+#include <locale>
+#include <iostream>
 
 int main() {
-    menuPrincipal();
+    std::locale::global(std::locale("es_ES.UTF-8"));
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+
+    int opcio = 0;
+    while (true) {
+        if (!presentacio.isUserLoggedIn()) {
+            std::wcout << L"\nMenú Principal" << std::endl;
+            std::wcout << L"1. Iniciar sesión" << std::endl;
+            std::wcout << L"2. Registrarse" << std::endl;
+            std::wcout << L"3. Consultas" << std::endl;
+            std::wcout << L"4. Salir" << std::endl;
+            std::wcout << L"Elige una opción: ";
+            std::cin >> opcio;
+
+            switch (opcio) {
+            case 1:
+                presentacio.procesarIniciarSesion();
+                break;
+            case 2:
+                presentacio.procesarRegistroUsuario();
+                break;
+            case 3:
+                presentacio.procesarConsultas();
+                break;
+            case 4:
+                std::wcout << L"Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
+                return 0;
+            default:
+                std::wcout << L"Opción no válida, vuelve a intentarlo." << std::endl;
+            }
+        }
+        else {
+            std::wcout << L"\nMenú de Usuario" << std::endl;
+            std::wcout << L"1. Consultar mi perfil" << std::endl;
+            std::wcout << L"2. Modificar mi perfil" << std::endl;
+            std::wcout << L"3. Visualizaciones" << std::endl;
+            std::wcout << L"4. Consultas" << std::endl;
+            std::wcout << L"5. Cerrar sesión" << std::endl;
+            std::wcout << L"6. Eliminar cuenta" << std::endl;
+            std::wcout << L"7. Salir" << std::endl;
+            std::wcout << L"Elige una opción: ";
+            std::cin >> opcio;
+
+            switch (opcio) {
+            case 1:
+                presentacio.procesarConsultaPerfil();
+                break;
+            case 2:
+                presentacio.procesarModificacionPerfil();
+                break;
+            case 3:
+                presentacio.procesarVisualizaciones();
+                break;
+            case 4:
+                presentacio.procesarConsultas();
+                break;
+            case 5:
+                presentacio.procesarCerrarSesion();
+                break;
+            case 6:
+                presentacio.procesarEliminarCuenta();
+                break;
+            case 7:
+                std::wcout << L"Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
+                return 0;
+            default:
+                std::wcout << L"Opción no válida, vuelve a intentarlo." << std::endl;
+            }
+        }
+    }
+
     return 0;
 }
 
