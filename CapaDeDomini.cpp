@@ -51,6 +51,18 @@ void CapaDeDomini::modificarPerfil(const std::string& sobrenom, const std::strin
     usuari.modifica();
 }
 
+void CapaDeDomini::cambiarContrasenya(const std::string& sobrenom, const std::string& contrasenyaActual,
+    const std::string& nuevaContrasenya) {
+    CercadoraUsuari cercador;
+    PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
+
+    if (usuari.obteContrasenya() != contrasenyaActual) {
+        throw std::runtime_error("Error: Contraseña actual incorrecta.");
+    }
+
+    usuari.cambiaContrasenya(nuevaContrasenya);
+}
+
 void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya) {
     CercadoraUsuari cercador;
     PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
@@ -62,18 +74,14 @@ void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string
     usuari.esborra();
 }
 
-void CapaDeDomini::consultarProximasEstrenas(const std::string& sobrenom) {
+void CapaDeDomini::consultarProximasEstrenas() {
     std::cout << "Consulta de próximas estrenas no implementada aún." << std::endl;
 }
 
-void CapaDeDomini::consultarUltimasNovedades(const std::string& sobrenom) {
+void CapaDeDomini::consultarUltimasNovedades() {
     std::cout << "Consulta de últimas novedades no implementada aún." << std::endl;
 }
 
-void CapaDeDomini::consultarMasVistas(const std::string& sobrenom) {
+void CapaDeDomini::consultarPeliculasMasVistas() {
     std::cout << "Consulta de películas más vistas no implementada aún." << std::endl;
-}
-
-void CapaDeDomini::consultarVisualizaciones(const std::string& sobrenom) {
-    std::cout << "Consulta de visualizaciones no implementada aún." << std::endl;
 }

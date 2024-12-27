@@ -25,15 +25,14 @@ public:
     DTOUsuari consultarPerfil(const std::string& sobrenom);
     void modificarPerfil(const std::string& sobrenom, const std::string& nuevoNom,
         const std::string& nuevoCorreo);
+    void cambiarContrasenya(const std::string& sobrenom, const std::string& contrasenyaActual,
+        const std::string& nuevaContrasenya);
     void eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya);
 
-    // Consultas
-    void consultarProximasEstrenas(const std::string& sobrenom);
-    void consultarUltimasNovedades(const std::string& sobrenom);
-    void consultarMasVistas(const std::string& sobrenom);
-
-    // Visualizaciones
-    void consultarVisualizaciones(const std::string& sobrenom);
+    // Consultas adicionales (películas, estrenas, etc.)
+    void consultarProximasEstrenas();
+    void consultarUltimasNovedades();
+    void consultarPeliculasMasVistas();
 };
 
 #endif

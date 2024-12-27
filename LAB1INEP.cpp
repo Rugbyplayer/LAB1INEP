@@ -6,18 +6,17 @@ int main() {
     std::locale::global(std::locale("es_ES.UTF-8"));
     CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
 
-    int opcio = 0;
+    int opcion = 0;
     while (true) {
         if (!presentacio.isUserLoggedIn()) {
-            std::wcout << L"\nMenú Principal" << std::endl;
-            std::wcout << L"1. Iniciar sesión" << std::endl;
-            std::wcout << L"2. Registrarse" << std::endl;
-            std::wcout << L"3. Consultas" << std::endl;
-            std::wcout << L"4. Salir" << std::endl;
-            std::wcout << L"Elige una opción: ";
-            std::cin >> opcio;
+            std::cout << "\n--- Menú Principal ---" << std::endl;
+            std::cout << "1. Iniciar sesión" << std::endl;
+            std::cout << "2. Registrarse" << std::endl;
+            std::cout << "3. Salir" << std::endl;
+            std::cout << "Seleccione una opción: ";
+            std::cin >> opcion;
 
-            switch (opcio) {
+            switch (opcion) {
             case 1:
                 presentacio.procesarIniciarSesion();
                 break;
@@ -25,28 +24,24 @@ int main() {
                 presentacio.procesarRegistroUsuario();
                 break;
             case 3:
-                presentacio.procesarConsultas();
-                break;
-            case 4:
-                std::wcout << L"Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
+                std::cout << "Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
                 return 0;
             default:
-                std::wcout << L"Opción no válida, vuelve a intentarlo." << std::endl;
+                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
             }
         }
         else {
-            std::wcout << L"\nMenú de Usuario" << std::endl;
-            std::wcout << L"1. Consultar mi perfil" << std::endl;
-            std::wcout << L"2. Modificar mi perfil" << std::endl;
-            std::wcout << L"3. Visualizaciones" << std::endl;
-            std::wcout << L"4. Consultas" << std::endl;
-            std::wcout << L"5. Cerrar sesión" << std::endl;
-            std::wcout << L"6. Eliminar cuenta" << std::endl;
-            std::wcout << L"7. Salir" << std::endl;
-            std::wcout << L"Elige una opción: ";
-            std::cin >> opcio;
+            std::cout << "\n--- Menú Usuario ---" << std::endl;
+            std::cout << "1. Consultar perfil" << std::endl;
+            std::cout << "2. Modificar perfil" << std::endl;
+            std::cout << "3. Cambiar contraseña" << std::endl;
+            std::cout << "4. Eliminar cuenta" << std::endl;
+            std::cout << "5. Cerrar sesión" << std::endl;
+            std::cout << "6. Salir" << std::endl;
+            std::cout << "Seleccione una opción: ";
+            std::cin >> opcion;
 
-            switch (opcio) {
+            switch (opcion) {
             case 1:
                 presentacio.procesarConsultaPerfil();
                 break;
@@ -54,27 +49,23 @@ int main() {
                 presentacio.procesarModificacionPerfil();
                 break;
             case 3:
-                presentacio.procesarVisualizaciones();
+                presentacio.procesarCambiarContrasenya();
                 break;
             case 4:
-                presentacio.procesarConsultas();
+                presentacio.procesarEliminarCuenta();
                 break;
             case 5:
                 presentacio.procesarCerrarSesion();
                 break;
             case 6:
-                presentacio.procesarEliminarCuenta();
-                break;
-            case 7:
-                std::wcout << L"Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
+                std::cout << "Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
                 return 0;
             default:
-                std::wcout << L"Opción no válida, vuelve a intentarlo." << std::endl;
+                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
             }
         }
     }
 
     return 0;
 }
-
 // Editat per Guillem-Sancho

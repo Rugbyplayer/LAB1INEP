@@ -1,32 +1,51 @@
 #include "ConnexioBD.h"
-#include <cppconn/driver.h>
-#include <cppconn/connection.h>
-#include <cppconn/statement.h>
-#include <cppconn/resultset.h>
-#include <mysql_driver.h>
+#include <cppconn/exception.h>
+#include <stdexcept>
 
-ConnexioBD::ConnexioBD(const string& host, const string& user, const string& password, const string& schema) {
-    driver = sql::mysql::get_mysql_driver_instance();
-    con = driver->connect(host, user, password);
-    con->setSchema(schema);
-}
-
-ConnexioBD::~ConnexioBD() {
-    if (con != nullptr) {
-        con->close();
-        delete con;
+// Constructor privado
+ConnexioBD::ConnexioBD(const std::string& host, const std::string& user, const std::string& password, const std::string& schema) {
+    try {
+        driver = sql::mysql::get_mysql_driver_instance();
+        con = driver->connect(host, user, password);
+        con->setSchema(schema);
+    }
+    catch (sql::SQLException& e) {
+        throw std::runtime_error("Error al conectar a la base de datos: " + std::string(e.what()));
     }
 }
 
-sql::ResultSet* ConnexioBD::executeQuery(const string& query) {
-    sql::Statement* stmt = con->createStatement();
-    sql::ResultSet* res = stmt->executeQuery(query);
-    delete stmt;
-    return res;
+// Destructor
+ConnexioBD::~ConnexioBD() {
+    delete con;
 }
 
-void ConnexioBD::executeCommand(const string& command) {
-    sql::Statement* stmt = con->createStatement();
-    stmt->execute(command);
-    delete stmt;
+// Implementación del Singleton
+ConnexioBD& ConnexioBD::getInstance() {
+    static ConnexioBD instance("tcp://ubiwan.epsevg.upc.edu:3306", "inep27", "ohZol1Wie9chah", "inep27");
+    return instance;
+}
+
+// Ejecutar consultas SELECT
+sql::ResultSet* ConnexioBD::executeQuery(const std::string& query) {
+    try {
+        sql::Statement* stmt = con->createStatement();
+        sql::ResultSet* res = stmt->executeQuery(query);
+        delete stmt;
+        return res;
+    }
+    catch (sql::SQLException& e) {
+        throw std::runtime_error("Error al ejecutar consulta: " + std::string(e.what()));
+    }
+}
+
+// Ejecutar comandos INSERT, UPDATE, DELETE
+void ConnexioBD::executeCommand(const std::string& command) {
+    try {
+        sql::Statement* stmt = con->createStatement();
+        stmt->execute(command);
+        delete stmt;
+    }
+    catch (sql::SQLException& e) {
+        throw std::runtime_error("Error al ejecutar comando: " + std::string(e.what()));
+    }
 }

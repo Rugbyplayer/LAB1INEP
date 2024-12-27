@@ -7,8 +7,8 @@
 
 class CapaDePresentacio {
 private:
-    bool userLoggedIn;        // Indica si hay un usuario logueado
-    std::string loggedUser;   // Sobrenombre del usuario logueado
+    bool userLoggedIn;
+    std::string loggedUser;
     CapaDePresentacio() : userLoggedIn(false) {}
 
 public:
@@ -19,15 +19,14 @@ public:
 
     bool isUserLoggedIn() const { return userLoggedIn; }
 
-    // Métodos para procesar los menús y casos de uso
+    // Métodos para gestionar el sistema
     void procesarIniciarSesion();
     void procesarCerrarSesion();
     void procesarRegistroUsuario();
     void procesarConsultaPerfil();
     void procesarModificacionPerfil();
+    void procesarCambiarContrasenya();
     void procesarEliminarCuenta();
-    void procesarVisualizaciones();
-    void procesarConsultas();
 };
 
 #endif

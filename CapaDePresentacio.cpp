@@ -21,17 +21,9 @@ void CapaDePresentacio::procesarIniciarSesion() {
 }
 
 void CapaDePresentacio::procesarCerrarSesion() {
-    char confirm;
-    std::cout << "¿Seguro que quieres cerrar sesión? (S/N): ";
-    std::cin >> confirm;
-    if (confirm == 'S' || confirm == 's') {
-        userLoggedIn = false;
-        loggedUser.clear();
-        std::cout << "Sesión cerrada." << std::endl;
-    }
-    else {
-        std::cout << "Operación cancelada." << std::endl;
-    }
+    userLoggedIn = false;
+    loggedUser.clear();
+    std::cout << "Sesión cerrada." << std::endl;
 }
 
 void CapaDePresentacio::procesarRegistroUsuario() {
@@ -73,16 +65,34 @@ void CapaDePresentacio::procesarConsultaPerfil() {
 void CapaDePresentacio::procesarModificacionPerfil() {
     std::string nuevoNom, nuevoCorreo;
     std::cout << "Modificar Perfil" << std::endl;
-    std::cout << "Nuevo nombre (deja vacío para mantener): ";
-    std::cin.ignore(); // Limpia buffer
+    std::cout << "Nuevo nombre: ";
+    std::cin.ignore();
     std::getline(std::cin, nuevoNom);
-    std::cout << "Nuevo correo electrónico (deja vacío para mantener): ";
+    std::cout << "Nuevo correo: ";
     std::getline(std::cin, nuevoCorreo);
 
     try {
         CapaDeDomini& domini = CapaDeDomini::getInstance();
         domini.modificarPerfil(loggedUser, nuevoNom, nuevoCorreo);
-        std::cout << "Perfil modificado correctamente." << std::endl;
+        std::cout << "Perfil actualizado correctamente." << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarCambiarContrasenya() {
+    std::string contrasenyaActual, nuevaContrasenya;
+    std::cout << "Cambiar Contraseña" << std::endl;
+    std::cout << "Contraseña actual: ";
+    std::cin >> contrasenyaActual;
+    std::cout << "Nueva contraseña: ";
+    std::cin >> nuevaContrasenya;
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.cambiarContrasenya(loggedUser, contrasenyaActual, nuevaContrasenya);
+        std::cout << "Contraseña actualizada correctamente." << std::endl;
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
@@ -101,45 +111,6 @@ void CapaDePresentacio::procesarEliminarCuenta() {
         userLoggedIn = false;
         loggedUser.clear();
         std::cout << "Cuenta eliminada correctamente." << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
-}
-
-void CapaDePresentacio::procesarVisualizaciones() {
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.consultarVisualizaciones(loggedUser);
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
-}
-
-void CapaDePresentacio::procesarConsultas() {
-    std::cout << "Consulta de Contenidos" << std::endl;
-    std::cout << "1. Próximas estrenas" << std::endl;
-    std::cout << "2. Últimas novedades" << std::endl;
-    std::cout << "3. Películas más vistas" << std::endl;
-    int opcion;
-    std::cin >> opcion;
-
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        switch (opcion) {
-        case 1:
-            domini.consultarProximasEstrenas(loggedUser);
-            break;
-        case 2:
-            domini.consultarUltimasNovedades(loggedUser);
-            break;
-        case 3:
-            domini.consultarMasVistas(loggedUser);
-            break;
-        default:
-            std::cout << "Opción no válida." << std::endl;
-        }
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
