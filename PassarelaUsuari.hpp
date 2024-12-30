@@ -9,27 +9,29 @@ private:
     std::string sobrenom;
     std::string nom;
     std::string correu;
-    std::string dataNaixement;
-    std::string modalitatSubscripcio;
-    int peliculesVisualitzades;
-    int capitolsVisualitzats;
+    std::string contrasenya;
 
 public:
-    PassarelaUsuari(const std::string& s, const std::string& n, const std::string& c,
-        const std::string& data, const std::string& modalitat,
-        int pelicules, int capitols)
-        : sobrenom(s), nom(n), correu(c), dataNaixement(data),
-        modalitatSubscripcio(modalitat), peliculesVisualitzades(pelicules),
-        capitolsVisualitzats(capitols) {}
+    PassarelaUsuari(const std::string& s, const std::string& n, const std::string& c, const std::string& passwd)
+        : sobrenom(s), nom(n), correu(c), contrasenya(passwd) {}
 
-    // Métodos para obtener datos.
-    std::string obteSobrenom() const { return sobrenom; }
+    void insereix();
+    void modifica();
+    void cambiaContrasenya(const std::string& novaContrasenya);
+    void esborra();
+
+    // Métodos de acceso
     std::string obteNom() const { return nom; }
+    std::string obteSobrenom() const { return sobrenom; }
     std::string obteCorreuElectronic() const { return correu; }
-    std::string obteDataNaixement() const { return dataNaixement; }
-    std::string obteModalitatSubscripcio() const { return modalitatSubscripcio; }
-    int obtePeliculesVisualitzades() const { return peliculesVisualitzades; }
-    int obteCapitolsVisualitzats() const { return capitolsVisualitzats; }
+    std::string obteContrasenya() const { return contrasenya; }
+
+    // Métodos de modificación
+    void posaNom(const std::string& nouNom) { nom = nouNom; }
+    void posaCorreuElectronic(const std::string& nouCorreu) { correu = nouCorreu; }
+
+    void registraVisualizacion(int idUsuari, int idContingut, const std::string& dataVisualitzacio);
+    std::vector<std::string> consultaVisualizaciones(int idUsuari);
 };
 
 #endif

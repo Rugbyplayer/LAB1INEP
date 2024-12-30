@@ -2,10 +2,10 @@
 
 void CapaDePresentacio::procesarIniciarSesion() {
     std::string sobrenom, contrasenya;
-    std::cout << "Iniciar Sesio" << std::endl;
-    std::cout << "Sobrenom: ";
+    std::cout << "Iniciar Sesión" << std::endl;
+    std::cout << "Sobrenombre: ";
     std::cin >> sobrenom;
-    std::cout << "Contrasenya: ";
+    std::cout << "Contraseña: ";
     std::cin >> contrasenya;
 
     try {
@@ -13,7 +13,7 @@ void CapaDePresentacio::procesarIniciarSesion() {
         domini.iniciarSesion(sobrenom, contrasenya);
         loggedUser = sobrenom;
         userLoggedIn = true;
-        std::cout << "Sesio iniciada correctament." << std::endl;
+        std::cout << "Sesión iniciada correctamente." << std::endl;
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
@@ -21,35 +21,27 @@ void CapaDePresentacio::procesarIniciarSesion() {
 }
 
 void CapaDePresentacio::procesarCerrarSesion() {
-    char confirm;
-    std::cout << "¿Seguro que quieres cerrar sesión? (S/N): ";
-    std::cin >> confirm;
-    if (confirm == 'S' || confirm == 's') {
-        userLoggedIn = false;
-        loggedUser.clear();
-        std::cout << "Sesio tencada correctament." << std::endl;
-    }
-    else if(confirm =='N' || confirm== 'n'){
-        std::cout << "Operacio cancelada. Tornant al menú anterior." << std::endl;
-    }
+    userLoggedIn = false;
+    loggedUser.clear();
+    std::cout << "Sesión cerrada." << std::endl;
 }
 
 void CapaDePresentacio::procesarRegistroUsuario() {
-    std::string sobrenom, nom, contrasenya, correu;
-    std::cout << "Registrar Usuari" << std::endl;
-    std::cout << "Sobrenom: ";
+    std::string sobrenom, nom, contrasenya, correo;
+    std::cout << "Registrar Usuario" << std::endl;
+    std::cout << "Sobrenombre: ";
     std::cin >> sobrenom;
-    std::cout << "Nom: ";
+    std::cout << "Nombre: ";
     std::cin >> nom;
-    std::cout << "Contrasenya: ";
+    std::cout << "Contraseña: ";
     std::cin >> contrasenya;
-    std::cout << "Correu Electrónic: ";
-    std::cin >> correu;
+    std::cout << "Correo Electrónico: ";
+    std::cin >> correo;
 
     try {
         CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.registrarUsuario(nom, sobrenom, contrasenya, correu);
-        std::cout << "Usuari registrat correctament." << std::endl;
+        domini.registrarUsuario(nom, sobrenom, contrasenya, correo);
+        std::cout << "Usuario registrado correctamente." << std::endl;
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
@@ -60,10 +52,10 @@ void CapaDePresentacio::procesarConsultaPerfil() {
     try {
         CapaDeDomini& domini = CapaDeDomini::getInstance();
         auto perfil = domini.consultarPerfil(loggedUser);
-        std::cout << "Perfil del Usuari" << std::endl;
-        std::cout << "Nom: " << perfil.nom << std::endl;
-        std::cout << "Sobrenom: " << perfil.sobrenom << std::endl;
-        std::cout << "Correu: " << perfil.correu << std::endl;
+        std::cout << "Perfil del Usuario" << std::endl;
+        std::cout << "Nombre: " << perfil.nom << std::endl;
+        std::cout << "Sobrenombre: " << perfil.sobrenom << std::endl;
+        std::cout << "Correo: " << perfil.correu << std::endl;
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
@@ -71,13 +63,14 @@ void CapaDePresentacio::procesarConsultaPerfil() {
 }
 
 void CapaDePresentacio::procesarModificacionPerfil() {
-    std::cout << "La modificacio de l'uauari no esta implementada encara." << std::endl;
+        std::cout << "No fa falta implementar" << std::endl;
 }
+
 
 void CapaDePresentacio::procesarEliminarCuenta() {
     std::string contrasenya;
-    std::cout << "Eliminar Compte" << std::endl;
-    std::cout << "Introdueix la teva contrasenya per confirmar: ";
+    std::cout << "Eliminar Cuenta" << std::endl;
+    std::cout << "Introduce tu contraseña para confirmar: ";
     std::cin >> contrasenya;
 
     try {
@@ -85,7 +78,65 @@ void CapaDePresentacio::procesarEliminarCuenta() {
         domini.eliminarCuenta(loggedUser, contrasenya);
         userLoggedIn = false;
         loggedUser.clear();
-        std::cout << "Cuenta eliminada correctament." << std::endl;
+        std::cout << "Cuenta eliminada correctamente." << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarVisualizarPelicula() {
+    std::string nombrePelicula;
+    std::cout << "Introduce el nombre de la película para visualizar: ";
+    std::cin.ignore(); // Para ignorar el salto de línea previo
+    std::getline(std::cin, nombrePelicula);
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.visualizarPelicula(nombrePelicula); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarVisualizarCapitulo() {
+    std::cout << "No fa falta implementar" << std::endl;
+}
+
+void CapaDePresentacio::procesarConsultarVisualizaciones() {
+    std::string usuario;
+    std::cout << "Introduce el nombre de usuario para consultar sus visualizaciones: ";
+    std::cin.ignore(); // Para ignorar el salto de línea previo
+    std::getline(std::cin, usuario);
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarVisualizaciones(usuario); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarProximasEstrenos() {
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarProximasEstrenas(); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarUltimasNovedades() {
+    std::cout << "No fa falta implementar" << std::endl;
+}
+
+void CapaDePresentacio::procesarPeliculasMasVistas() {
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarPeliculasMasVistas(); // Llamamos a la capa de dominio
     }
     catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;

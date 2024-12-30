@@ -19,14 +19,19 @@ public:
 
     bool isUserLoggedIn() const { return userLoggedIn; }
 
-    // Métodos para gestionar el sistema
+    // Mï¿½todos para gestionar el sistema
     void procesarIniciarSesion();
     void procesarCerrarSesion();
     void procesarRegistroUsuario();
     void procesarConsultaPerfil();
     void procesarModificacionPerfil();
-    
     void procesarEliminarCuenta();
+    void procesarVisualizarPelicula();
+    void procesarVisualizarCapitulo();
+    void procesarConsultarVisualizaciones();
+    void procesarProximasEstrenos();
+    void procesarUltimasNovedades();
+    void procesarPeliculasMasVistas();
 };
 
 #endif
