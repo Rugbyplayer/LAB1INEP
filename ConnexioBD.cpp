@@ -4,14 +4,7 @@
 
 // Constructor privado
 ConnexioBD::ConnexioBD(const std::string& host, const std::string& user, const std::string& password, const std::string& schema) {
-    try {
-        driver = sql::mysql::get_mysql_driver_instance();
-        con = driver->connect(host, user, password);
-        con->setSchema(schema);
-    }
-    catch (sql::SQLException& e) {
-        throw std::runtime_error("Error al conectar a la base de datos: " + std::string(e.what()));
-    }
+  
 }
 
 // Destructor

@@ -2,10 +2,12 @@
 #define CONNEXIOBD_H
 
 #include <cppconn/driver.h>
-#include <cppconn/connection.h>
+#include <cppconn/exception.h>
 #include <cppconn/statement.h>
-#include <cppconn/resultset.h>
-#include <string>
+#include <iostream>
+#include <mysql_connection.h>
+#include <mysql_driver.h>
+
 
 class ConnexioBD {
 private:

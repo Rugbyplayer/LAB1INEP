@@ -48,15 +48,7 @@ void CapaDeDomini::registrarUsuario(const std::string& nom, const std::string& s
 }
 
 DTOUsuari CapaDeDomini::consultarPerfil(const std::string& sobrenom) {
-    CercadoraUsuari cercador;
-    PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
-
-    DTOUsuari dto;
-    dto.nom = usuari.obteNom();
-    dto.sobrenom = usuari.obteSobrenom();
-    dto.correu = usuari.obteCorreuElectronic();
-
-    return dto;
+    
 }
 
 void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya) {

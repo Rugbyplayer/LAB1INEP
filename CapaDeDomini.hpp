@@ -2,7 +2,7 @@
 #define CAPADEDOMINI_HPP
 
 #include <string>
-#include "DTOUsuari.hpp"
+
 
 class CapaDeDomini {
 private:
