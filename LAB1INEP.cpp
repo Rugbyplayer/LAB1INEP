@@ -5,6 +5,7 @@
 void MenuUsuari(){
     std::locale::global(std::locale("es_ES.UTF-8"));
     CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+    int opcion = 0;
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Consultar perfil" << std::endl;
             std::cout << "2. Modificar perfil" << std::endl;
@@ -33,7 +34,7 @@ void MenuUsuari(){
 void MenuVisualitzacio(){
     std::locale::global(std::locale("es_ES.UTF-8"));
     CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
-
+    int opcion = 0;
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Visualitzar pel·lícula" << std::endl;
             std::cout << "2. Visualitzar capítol" << std::endl;
@@ -63,6 +64,7 @@ void MenuVisualitzacio(){
 void MenuConsultes(){
     std::locale::global(std::locale("es_ES.UTF-8"));
     CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+    int opcion = 0;
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Properes estrenes" << std::endl;
             std::cout << "2. Últimes novetats" << std::endl;
