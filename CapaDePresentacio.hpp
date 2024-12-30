@@ -25,7 +25,7 @@ public:
     void procesarRegistroUsuario();
     void procesarConsultaPerfil();
     void procesarModificacionPerfil();
-    void procesarCambiarContrasenya();
+    
     void procesarEliminarCuenta();
 };
 

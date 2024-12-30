@@ -2,7 +2,7 @@
 #define CAPADEDOMINI_HPP
 
 #include <string>
-#include "DTOUsuari.hpp"
+
 
 class CapaDeDomini {
 private:
@@ -22,11 +22,9 @@ public:
     // Gestión de usuarios
     void registrarUsuario(const std::string& nom, const std::string& sobrenom,
         const std::string& contrasenya, const std::string& correo);
-    DTOUsuari consultarPerfil(const std::string& sobrenom);
+   void consultarPerfil(const std::string& sobrenom);
     void modificarPerfil(const std::string& sobrenom, const std::string& nuevoNom,
         const std::string& nuevoCorreo);
-    void cambiarContrasenya(const std::string& sobrenom, const std::string& contrasenyaActual,
-        const std::string& nuevaContrasenya);
     void eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya);
 
     // Consultas adicionales (películas, estrenas, etc.)

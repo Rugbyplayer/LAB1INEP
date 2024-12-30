@@ -75,7 +75,7 @@ void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string
 }
 
 void CapaDeDomini::consultarProximasEstrenas() {
-    std::cout << "Consulta de próximas estrenas no implementada aún." << std::endl;
+          
 }
 
 void CapaDeDomini::consultarUltimasNovedades() {

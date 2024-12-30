@@ -12,7 +12,8 @@ int main() {
             std::cout << "\n--- Menú Principal ---" << std::endl;
             std::cout << "1. Iniciar sesión" << std::endl;
             std::cout << "2. Registrarse" << std::endl;
-            std::cout << "3. Salir" << std::endl;
+            std::cout << "4. Consultes" << std::endl;
+            std::cout << "3. Sortir" << std::endl;
             std::cout << "Seleccione una opción: ";
             std::cin >> opcion;
 
@@ -22,8 +23,12 @@ int main() {
                 break;
             case 2:
                 presentacio.procesarRegistroUsuario();
+
                 break;
             case 3:
+
+                break;
+            case 4:
                 std::cout << "Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
                 return 0;
             default:
@@ -31,13 +36,12 @@ int main() {
             }
         }
         else {
-            std::cout << "\n--- Menú Usuario ---" << std::endl;
-            std::cout << "1. Consultar perfil" << std::endl;
-            std::cout << "2. Modificar perfil" << std::endl;
-            std::cout << "3. Cambiar contraseña" << std::endl;
-            std::cout << "4. Eliminar cuenta" << std::endl;
-            std::cout << "5. Cerrar sesión" << std::endl;
-            std::cout << "6. Salir" << std::endl;
+            std::cout << "\n--- Menú Principal ---" << std::endl;
+            std::cout << "1. Gestió usuaris" << std::endl;
+            std::cout << "2. Visualizar" << std::endl;
+            std::cout << "3. Consultes" << std::endl;
+            std::cout << "4. Tancar sessió" << std::endl;
+            std::cout << "5. Sortir" << std::endl;
             std::cout << "Seleccione una opción: ";
             std::cin >> opcion;
 
@@ -48,16 +52,11 @@ int main() {
             case 2:
                 presentacio.procesarModificacionPerfil();
                 break;
+           
             case 3:
-                presentacio.procesarCambiarContrasenya();
-                break;
-            case 4:
                 presentacio.procesarEliminarCuenta();
                 break;
-            case 5:
-                presentacio.procesarCerrarSesion();
-                break;
-            case 6:
+            case 4:
                 std::cout << "Saliendo de la aplicación. ¡Hasta pronto!" << std::endl;
                 return 0;
             default:
