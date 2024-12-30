@@ -3,6 +3,8 @@
 #include <iostream>
 
 void MenuUsuari(){
+    std::locale::global(std::locale("es_ES.UTF-8"));
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Consultar perfil" << std::endl;
             std::cout << "2. Modificar perfil" << std::endl;
@@ -29,6 +31,9 @@ void MenuUsuari(){
 }
 
 void MenuVisualitzacio(){
+    std::locale::global(std::locale("es_ES.UTF-8"));
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
+
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Visualitzar pel·lícula" << std::endl;
             std::cout << "2. Visualitzar capítol" << std::endl;
@@ -56,6 +61,8 @@ void MenuVisualitzacio(){
 
 
 void MenuConsultes(){
+    std::locale::global(std::locale("es_ES.UTF-8"));
+    CapaDePresentacio& presentacio = CapaDePresentacio::getInstance();
             std::cout << "\n--- Menú Usuario ---" << std::endl;
             std::cout << "1. Properes estrenes" << std::endl;
             std::cout << "2. Últimes novetats" << std::endl;
@@ -126,10 +133,10 @@ int main() {
                 MenuUsuari();
                 break;
             case 2:
-                
+                MenuVisualitzacio();
                 break;
             case 3:
-                
+                MenuConsultes();
                 break;
             case 4:
                 std::cout << "Sessió tencada correctament!" << std::endl;
