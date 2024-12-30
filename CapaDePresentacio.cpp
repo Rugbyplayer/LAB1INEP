@@ -116,3 +116,78 @@ void CapaDePresentacio::procesarEliminarCuenta() {
         std::cout << "Error: " << e.what() << std::endl;
     }
 }
+
+void CapaDePresentacio::procesarVisualizarPelicula() {
+    std::string nombrePelicula;
+    std::cout << "Introduce el nombre de la película para visualizar: ";
+    std::cin.ignore(); // Para ignorar el salto de línea previo
+    std::getline(std::cin, nombrePelicula);
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.visualizarPelicula(nombrePelicula); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarVisualizarCapitulo() {
+    std::string nombreCapitulo;
+    std::cout << "Introduce el nombre del capítulo para visualizar: ";
+    std::cin.ignore(); // Para ignorar el salto de línea previo
+    std::getline(std::cin, nombreCapitulo);
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.visualizarCapitulo(nombreCapitulo); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarConsultarVisualizaciones() {
+    std::string usuario;
+    std::cout << "Introduce el nombre de usuario para consultar sus visualizaciones: ";
+    std::cin.ignore(); // Para ignorar el salto de línea previo
+    std::getline(std::cin, usuario);
+
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarVisualizaciones(usuario); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarProximasEstrenos() {
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarProximasEstrenas(); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarUltimasNovedades() {
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarUltimasNovedades(); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void CapaDePresentacio::procesarPeliculasMasVistas() {
+    try {
+        CapaDeDomini& domini = CapaDeDomini::getInstance();
+        domini.consultarPeliculasMasVistas(); // Llamamos a la capa de dominio
+    }
+    catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
