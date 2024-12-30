@@ -15,23 +15,18 @@ public:
         return instance;
     }
 
-    // Gestión de sesiones
+    // Gestiï¿½n de sesiones
     void iniciarSesion(const std::string& sobrenom, const std::string& contrasenya);
     void cerrarSesion();
 
-    // Gestión de usuarios
+    // Gestiï¿½n de usuarios
     void registrarUsuario(const std::string& nom, const std::string& sobrenom,
         const std::string& contrasenya, const std::string& correo);
     DTOUsuari consultarPerfil(const std::string& sobrenom);
-    void modificarPerfil(const std::string& sobrenom, const std::string& nuevoNom,
-        const std::string& nuevoCorreo);
-    void cambiarContrasenya(const std::string& sobrenom, const std::string& contrasenyaActual,
-        const std::string& nuevaContrasenya);
     void eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya);
 
-    // Consultas adicionales (películas, estrenas, etc.)
+    // Consultas adicionales (pelï¿½culas, estrenas, etc.)
     void consultarProximasEstrenas();
-    void consultarUltimasNovedades();
     void consultarPeliculasMasVistas();
 };
 

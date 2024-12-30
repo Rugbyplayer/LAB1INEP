@@ -63,41 +63,9 @@ void CapaDePresentacio::procesarConsultaPerfil() {
 }
 
 void CapaDePresentacio::procesarModificacionPerfil() {
-    std::string nuevoNom, nuevoCorreo;
-    std::cout << "Modificar Perfil" << std::endl;
-    std::cout << "Nuevo nombre: ";
-    std::cin.ignore();
-    std::getline(std::cin, nuevoNom);
-    std::cout << "Nuevo correo: ";
-    std::getline(std::cin, nuevoCorreo);
-
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.modificarPerfil(loggedUser, nuevoNom, nuevoCorreo);
-        std::cout << "Perfil actualizado correctamente." << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
+        std::cout << "No fa falta implementar" << std::endl;
 }
 
-void CapaDePresentacio::procesarCambiarContrasenya() {
-    std::string contrasenyaActual, nuevaContrasenya;
-    std::cout << "Cambiar Contraseña" << std::endl;
-    std::cout << "Contraseña actual: ";
-    std::cin >> contrasenyaActual;
-    std::cout << "Nueva contraseña: ";
-    std::cin >> nuevaContrasenya;
-
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.cambiarContrasenya(loggedUser, contrasenyaActual, nuevaContrasenya);
-        std::cout << "Contraseña actualizada correctamente." << std::endl;
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
-}
 
 void CapaDePresentacio::procesarEliminarCuenta() {
     std::string contrasenya;
@@ -133,18 +101,7 @@ void CapaDePresentacio::procesarVisualizarPelicula() {
 }
 
 void CapaDePresentacio::procesarVisualizarCapitulo() {
-    std::string nombreCapitulo;
-    std::cout << "Introduce el nombre del capítulo para visualizar: ";
-    std::cin.ignore(); // Para ignorar el salto de línea previo
-    std::getline(std::cin, nombreCapitulo);
-
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.visualizarCapitulo(nombreCapitulo); // Llamamos a la capa de dominio
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
+    std::cout << "No fa falta implementar" << std::endl;
 }
 
 void CapaDePresentacio::procesarConsultarVisualizaciones() {
@@ -173,13 +130,7 @@ void CapaDePresentacio::procesarProximasEstrenos() {
 }
 
 void CapaDePresentacio::procesarUltimasNovedades() {
-    try {
-        CapaDeDomini& domini = CapaDeDomini::getInstance();
-        domini.consultarUltimasNovedades(); // Llamamos a la capa de dominio
-    }
-    catch (const std::exception& e) {
-        std::cout << "Error: " << e.what() << std::endl;
-    }
+    std::cout << "No fa falta implementar" << std::endl;
 }
 
 void CapaDePresentacio::procesarPeliculasMasVistas() {

@@ -9,19 +9,20 @@ void CapaDeDomini::iniciarSesion(const std::string& sobrenom, const std::string&
     PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
 
     if (usuari.obteContrasenya() != contrasenya) {
-        throw std::runtime_error("Error: Contraseña incorrecta.");
+        throw std::runtime_error("Error: ContraseÃ±a incorrecta.");
     }
     usuarioLogueado = sobrenom;
-}
-
-void CapaDeDomini::cerrarSesion() {
-    usuarioLogueado.clear();
+    std::cout << "SesiÃ³n iniciada correctamente para el usuario: " << sobrenom << std::endl;
 }
 
 void CapaDeDomini::registrarUsuario(const std::string& nom, const std::string& sobrenom,
-    const std::string& contrasenya, const std::string& correo) {
-    PassarelaUsuari usuari(sobrenom, nom, correo, contrasenya);
-    usuari.insereix();
+    const std::string& contrasenya, const std::string& correo, const std::string& subscripcion) {
+    
+    // Crear un objeto PassarelaUsuari y registrar el usuario con subscripciÃ³n
+    PassarelaUsuari nuevoUsuario(sobrenom, nom, correo, contrasenya, subscripcion);
+    nuevoUsuario.insereix();  // Inserta el nuevo usuario en la base de datos
+
+    std::cout << "Usuario registrado correctamente: " << sobrenom << std::endl;
 }
 
 DTOUsuari CapaDeDomini::consultarPerfil(const std::string& sobrenom) {
@@ -32,35 +33,9 @@ DTOUsuari CapaDeDomini::consultarPerfil(const std::string& sobrenom) {
     dto.nom = usuari.obteNom();
     dto.sobrenom = usuari.obteSobrenom();
     dto.correu = usuari.obteCorreuElectronic();
+    dto.subscripcio = usuari.obteSubscripcio();  // Nuevo campo subscripciÃ³n
 
     return dto;
-}
-
-void CapaDeDomini::modificarPerfil(const std::string& sobrenom, const std::string& nuevoNom,
-    const std::string& nuevoCorreo) {
-    CercadoraUsuari cercador;
-    PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
-
-    if (!nuevoNom.empty()) {
-        usuari.posaNom(nuevoNom);
-    }
-    if (!nuevoCorreo.empty()) {
-        usuari.posaCorreuElectronic(nuevoCorreo);
-    }
-
-    usuari.modifica();
-}
-
-void CapaDeDomini::cambiarContrasenya(const std::string& sobrenom, const std::string& contrasenyaActual,
-    const std::string& nuevaContrasenya) {
-    CercadoraUsuari cercador;
-    PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
-
-    if (usuari.obteContrasenya() != contrasenyaActual) {
-        throw std::runtime_error("Error: Contraseña actual incorrecta.");
-    }
-
-    usuari.cambiaContrasenya(nuevaContrasenya);
 }
 
 void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya) {
@@ -68,20 +43,22 @@ void CapaDeDomini::eliminarCuenta(const std::string& sobrenom, const std::string
     PassarelaUsuari usuari = cercador.cercaPerSobrenom(sobrenom);
 
     if (usuari.obteContrasenya() != contrasenya) {
-        throw std::runtime_error("Error: Contraseña incorrecta.");
+        throw std::runtime_error("Error: ContraseÃ±a incorrecta.");
     }
 
-    usuari.esborra();
+    usuari.esborra();  // Elimina la cuenta
+    std::cout << "Cuenta de " << sobrenom << " eliminada correctamente." << std::endl;
 }
 
+
 void CapaDeDomini::consultarProximasEstrenas() {
-    std::cout << "Consulta de próximas estrenas no implementada aún." << std::endl;
+    std::cout << "Consulta de prï¿½ximas estrenas no implementada aï¿½n." << std::endl;
 }
 
 void CapaDeDomini::consultarUltimasNovedades() {
-    std::cout << "Consulta de últimas novedades no implementada aún." << std::endl;
+    std::cout << "Consulta de ï¿½ltimas novedades no implementada aï¿½n." << std::endl;
 }
 
 void CapaDeDomini::consultarPeliculasMasVistas() {
-    std::cout << "Consulta de películas más vistas no implementada aún." << std::endl;
+    std::cout << "Consulta de pelï¿½culas mï¿½s vistas no implementada aï¿½n." << std::endl;
 }
