@@ -21,7 +21,7 @@ public:
 
     void registrarUsuario(const std::string& nom, const std::string& sobrenom,
         const std::string& contrasenya, const std::string& correo);
-    DTOUsuari consultarPerfil(const std::string& sobrenom);
+    void consultarPerfil(const std::string& sobrenom);
     void eliminarCuenta(const std::string& sobrenom, const std::string& contrasenya);
 
     void procesarVisualizarPelicula();

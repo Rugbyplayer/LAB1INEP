@@ -1,7 +1,6 @@
 #ifndef CONNEXIOBD_H
 #define CONNEXIOBD_H
 
-#include <cppconn/driver.h>
 #include <cppconn/exception.h>
 #include <cppconn/statement.h>
 #include <iostream>
@@ -11,7 +10,6 @@
 
 class ConnexioBD {
 private:
-    sql::mysql::MySQL_Driver* driver;
     sql::Connection* con;
 
     // Constructor privado para Singleton

@@ -47,7 +47,7 @@ void CapaDeDomini::registrarUsuario(const std::string& nom, const std::string& s
     usuari.insereix();
 }
 
-DTOUsuari CapaDeDomini::consultarPerfil(const std::string& sobrenom) {
+void CapaDeDomini::consultarPerfil(const std::string& sobrenom) {
     
 }
 
