@@ -29,6 +29,9 @@ public:
     // Métodos de modificación
     void posaNom(const std::string& nouNom) { nom = nouNom; }
     void posaCorreuElectronic(const std::string& nouCorreu) { correu = nouCorreu; }
+
+    void registraVisualizacion(int idUsuari, int idContingut, const std::string& dataVisualitzacio);
+    std::vector<std::string> consultaVisualizaciones(int idUsuari);
 };
 
 #endif
